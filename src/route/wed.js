@@ -6,7 +6,8 @@ let router = express.Router();
 let initWedRouter = (app) => {
   router.get("/", HomeController.getHomePage);
 
-  router.post("/API/Login", UserController.login);
+  //api loggin
+  router.post("/api/login", UserController.handleLogin);
   return app.use("/", router);
 };
 

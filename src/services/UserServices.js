@@ -4,23 +4,24 @@ import bcrypt from "bcryptjs";
 
 const salt = bcrypt.genSaltSync(10);
 
-let handleUserLogin = (TaiKhoan, MatKhau) => {
+let handleUserLogin = (email, password) => {
   return new Promise(async (resolve, reject) => {
     try {
       let userData = {};
-      let isExit = await checkUser(TaiKhoan);
+      let isExit = await checkUser(email);
       if (isExit) {
-        let user = await db.NhanVien.findOne({
-          where: { TaiKhoan: TaiKhoan },
-          attributes: ["TaiKhoan", "Quyen", "HoTen", "MatKhau"],
+        let user = await db.User.findOne({
+          where: { email: email },
+          attributes: ["lastName", "firstName", "password", "roleid"],
           raw: true,
         });
         if (user) {
-          let check = await bcrypt.compareSync(MatKhau, user.MatKhau);
+          let check = await bcrypt.compareSync(password, user.password);
+          console.log(check);
           if (check) {
             userData.errCode = 0;
             userData.errMessage = "Đang nhập thành công";
-            delete user.MatKhau;
+            delete user.password;
             userData.user = user;
           } else {
             userData.errCode = 3;
@@ -41,11 +42,11 @@ let handleUserLogin = (TaiKhoan, MatKhau) => {
   });
 };
 
-let checkUser = (firstName) => {
+let checkUser = (email) => {
   return new Promise(async (resolve, reject) => {
     try {
       let TaiKhoanNV = await db.User.findOne({
-        where: { firstName: firstName },
+        where: { email: email },
       });
       if (TaiKhoanNV) {
         resolve(true);
@@ -56,4 +57,8 @@ let checkUser = (firstName) => {
       reject(e);
     }
   });
+};
+
+module.exports = {
+  handleUserLogin: handleUserLogin,
 };
