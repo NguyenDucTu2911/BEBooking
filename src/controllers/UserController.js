@@ -39,7 +39,34 @@ let getAllUser = async (req, res) => {
   }
 };
 
+let CreateUser = async (req, res) => {
+  let message = await userServices.CreateNewUser(req.body);
+  return res.status(200).json(message);
+};
+
+let UpdateUser = async (req, res) => {
+  let message = await userServices.UpdateNewUser(req.body);
+  return res.status(200).json(message);
+};
+
+let DeleteUser = async (req, res) => {
+  let id = req.body.id;
+  if (!id) {
+    return res.status(200).json({
+      errCode: 2,
+      errMessage: "tai khoan khong ton tai",
+    });
+  }
+  let message = await userServices.DeleteNewUser(id);
+  return res.status(200).json({
+    message,
+  });
+};
+
 module.exports = {
   handleLogin,
   getAllUser,
+  CreateUser,
+  UpdateUser,
+  DeleteUser,
 };
