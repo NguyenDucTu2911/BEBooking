@@ -1,4 +1,4 @@
-import { resolve } from "promise";
+import { reject, resolve } from "promise";
 import db from "../models/index";
 import bcrypt from "bcryptjs";
 
@@ -59,6 +59,35 @@ let checkUser = (email) => {
   });
 };
 
+let GetAllUser = (userid) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      let user = "";
+      if (userid === "ALL") {
+        user = await db.User.findAll({
+          attributes: {
+            exclude: ["password"],
+          },
+        });
+        console.log(user);
+      }
+      if (userid && userid !== "ALL") {
+        user = await db.User.findOne({
+          where: { id: userid },
+          attributes: {
+            exclude: ["password"],
+          },
+        });
+      }
+
+      resolve(user);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
 module.exports = {
   handleUserLogin: handleUserLogin,
+  GetAllUser,
 };

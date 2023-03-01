@@ -8,6 +8,7 @@ let initWedRouter = (app) => {
 
   //api loggin
   router.post("/api/login", UserController.handleLogin);
+  router.get("/api/User", UserController.getAllUser);
   return app.use("/", router);
 };
 
