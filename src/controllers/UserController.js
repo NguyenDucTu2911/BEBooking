@@ -21,6 +21,52 @@ let handleLogin = async (req, res) => {
   });
 };
 
+let getAllUser = async (req, res) => {
+  let id = req.body.id;
+  if (!id) {
+    return res.status(200).json({
+      errCode: 1,
+      errMessage: "missing required",
+      User: [],
+    });
+  } else {
+    let User = await userServices.GetAllUser(id);
+    return res.status(200).json({
+      errCode: 0,
+      errMessage: "oke",
+      User,
+    });
+  }
+};
+
+let CreateUser = async (req, res) => {
+  let message = await userServices.CreateNewUser(req.body);
+  return res.status(200).json(message);
+};
+
+let UpdateUser = async (req, res) => {
+  let message = await userServices.UpdateNewUser(req.body);
+  return res.status(200).json(message);
+};
+
+let DeleteUser = async (req, res) => {
+  let id = req.body.id;
+  if (!id) {
+    return res.status(200).json({
+      errCode: 2,
+      errMessage: "tai khoan khong ton tai",
+    });
+  }
+  let message = await userServices.DeleteNewUser(id);
+  return res.status(200).json({
+    message,
+  });
+};
+
 module.exports = {
   handleLogin,
+  getAllUser,
+  CreateUser,
+  UpdateUser,
+  DeleteUser,
 };
