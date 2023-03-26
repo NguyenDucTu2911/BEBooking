@@ -9,14 +9,22 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      // Allcodes.hasMany(models.User, {
+      //   foreignkey: "positoonld",
+      //   as: "positionData",
+      // });
+      // Allcodes.hasMany(models.User, {
+      //   foreignkey: "gender",
+      //   as: "genderData",
+      // });
     }
   }
   Allcodes.init(
     {
-      key : DataTypes.STRING,
+      keyMap: DataTypes.STRING,
       type: DataTypes.STRING,
       value_en: DataTypes.STRING,
-      value_vi: DataTypes.STRING
+      value_vi: DataTypes.STRING,
     },
     {
       sequelize,

@@ -33,9 +33,15 @@ module.exports = {
       password: {
         type: Sequelize.STRING,
       },
-      // birthday: {
-      //   type: sequelize.STRING,
-      // },
+      phonenumber: {
+        type: Sequelize.STRING,
+      },
+      positoonld: {
+        type: Sequelize.STRING,
+      },
+      image: {
+        type: Sequelize.BLOB("long"),
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
