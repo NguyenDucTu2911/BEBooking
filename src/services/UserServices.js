@@ -69,7 +69,7 @@ let GetAllUser = (userid) => {
             exclude: ["password"],
           },
         });
-        console.log(user);
+        // console.log(user);
       }
       if (userid && userid !== "ALL") {
         user = await db.User.findOne({
@@ -79,7 +79,6 @@ let GetAllUser = (userid) => {
           },
         });
       }
-
       resolve(user);
     } catch (error) {
       reject(error);
@@ -117,6 +116,7 @@ let CreateNewUser = (data) => {
           gender: data.gender-- - "1" ? true : false,
           roleid: data.roleid,
           password: hashpassword,
+          image: data.Anh,
         });
         resolve({
           errCode: 0,
@@ -191,10 +191,33 @@ let DeleteNewUser = async (Userid) => {
   });
 };
 
+let getserALLcode = async (typeInput) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (!typeInput) {
+        resolve({
+          errCode: 1,
+          errMessage: "missing parameters",
+        });
+      } else {
+        let res = {};
+        let allcode = await db.Allcodes.findAll({
+          where: { type: typeInput },
+        });
+        (res.errCode = 0), (res.data = allcode);
+        resolve(res);
+      }
+    } catch (error) {
+      reject(error);
+    }
+  });
+};
+
 module.exports = {
   handleUserLogin: handleUserLogin,
   GetAllUser,
   CreateNewUser,
   UpdateNewUser,
   DeleteNewUser,
+  getserALLcode,
 };
