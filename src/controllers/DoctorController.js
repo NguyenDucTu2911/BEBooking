@@ -19,6 +19,47 @@ let TopDoctorHome = async (req, res) => {
   }
 };
 
+let AllDoctorHome = async (req, res) => {
+  try {
+    let allDoctor = await DoctorServices.getAllDocTor();
+    return res.status(200).json(allDoctor);
+  } catch (error) {
+    console.log(error);
+    return res.status(200).json({
+      error: -1,
+      errMessage: "lỗi form server",
+    });
+  }
+};
+
+let saveInfoDoctor = async (req, res) => {
+  try {
+    let data = await DoctorServices.saveInfoDoctor(req.body);
+    return res.status(200).json(data);
+  } catch (error) {
+    console.log(error);
+    return res.status(200).json({
+      error: -1,
+      errMessage: "lỗi form server",
+    });
+  }
+};
+
+let getInfoDoctor = async (req, res) => {
+  try {
+    let data = await DoctorServices.getInfoDoctor(req.query.id);
+    return res.status(200).json(data);
+  } catch (error) {
+    console.log(error);
+    return res.status(200).json({
+      error: -1,
+      errMessage: "lỗi form server",
+    });
+  }
+};
 module.exports = {
   TopDoctorHome,
+  AllDoctorHome,
+  saveInfoDoctor,
+  getInfoDoctor,
 };

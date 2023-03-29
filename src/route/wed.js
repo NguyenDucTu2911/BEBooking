@@ -16,6 +16,10 @@ let initWedRouter = (app) => {
   router.delete("/api/DeleteUser", UserController.DeleteUser);
   router.get("/api/allcode", UserController.getAllcode);
   router.get("/api/TopDoctorHome", DoctorController.TopDoctorHome);
+  router.get("/api/AllDoctorHome", DoctorController.AllDoctorHome);
+  router.post("/api/save-info-doctor", DoctorController.saveInfoDoctor);
+  router.get("/api/get-info-doctor", DoctorController.getInfoDoctor);
+
   return app.use("/", router);
 };
 
