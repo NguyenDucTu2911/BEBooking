@@ -18,10 +18,33 @@ module.exports = (sequelize, DataTypes) => {
         targetKey: "keyMap",
         as: "genderData",
       });
+      User.belongsTo(models.Allcodes, {
+        foreignKey: "roleid",
+        targetKey: "keyMap",
+        as: "roleidData",
+      });
       User.hasOne(models.markdown, {
         foreignKey: "DoctorId",
         targetKey: "DoctorId",
         as: "DoctorData",
+      });
+      User.hasOne(models.doctorInfo, {
+        foreignKey: "doctorId",
+        targetKey: "doctorId",
+        as: "DoctorInfoData",
+      });
+      User.hasMany(models.Schedule, {
+        foreignKey: "doctorid",
+        as: "ScheduleData",
+      });
+
+      User.hasMany(models.Booking, {
+        foreignKey: "patientid",
+        as: "BookingData",
+      });
+      User.hasMany(models.Booking, {
+        foreignKey: "doctorId",
+        as: "BookingNameData",
       });
     }
   }
@@ -31,7 +54,7 @@ module.exports = (sequelize, DataTypes) => {
       lastName: DataTypes.STRING,
       email: DataTypes.STRING,
       address: DataTypes.STRING,
-      gender: DataTypes.BOOLEAN,
+      gender: DataTypes.STRING,
       roleid: DataTypes.STRING,
       password: DataTypes.STRING,
       phonenumber: DataTypes.STRING,

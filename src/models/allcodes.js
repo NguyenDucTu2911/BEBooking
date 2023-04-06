@@ -14,8 +14,35 @@ module.exports = (sequelize, DataTypes) => {
         as: "positionData",
       });
       Allcodes.hasMany(models.User, {
+        foreignKey: "roleid",
+        as: "roleidData",
+      });
+      Allcodes.hasMany(models.User, {
         foreignKey: "gender",
         as: "genderData",
+      });
+      Allcodes.hasMany(models.Schedule, {
+        foreignKey: "timeType",
+        as: "timeTypeData",
+      });
+
+      //dotor
+      Allcodes.hasMany(models.doctorInfo, {
+        foreignKey: "priceId",
+        as: "timeTypePriceId",
+      });
+      Allcodes.hasMany(models.doctorInfo, {
+        foreignKey: "provinceId",
+        as: "timeTypeProvinceId",
+      });
+      Allcodes.hasMany(models.doctorInfo, {
+        foreignKey: "paymentId",
+        as: "timeTypePaymentId",
+      });
+
+      Allcodes.hasMany(models.Booking, {
+        foreignKey: "timeType",
+        as: "timeTypeBooking",
       });
     }
   }

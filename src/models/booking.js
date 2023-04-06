@@ -8,7 +8,22 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      // define association here
+      Booking.belongsTo(models.User, {
+        foreignKey: "patientid",
+        targetKey: "id",
+        as: "BookingData",
+      });
+       Booking.belongsTo(models.User, {
+         foreignKey: "doctorId",
+         targetKey: "id",
+         as: "BookingNameData",
+       });
+
+       Booking.belongsTo(models.Allcodes, {
+         foreignKey: "timeType",
+         targetKey: "keyMap",
+         as: "timeTypeBooking",
+       });
     }
   }
   Booking.init(
@@ -16,12 +31,14 @@ module.exports = (sequelize, DataTypes) => {
       statusId: DataTypes.STRING,
       doctorId: DataTypes.INTEGER,
       patientid: DataTypes.INTEGER,
-      date: DataTypes.DATE,
-      timeType: DataTypes.STRING
+      date: DataTypes.STRING,
+      timeType: DataTypes.STRING,
+      token: DataTypes.STRING,
     },
     {
       sequelize,
       modelName: "Booking",
+      freezeTableName: true,
     }
   );
   return Booking;
