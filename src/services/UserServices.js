@@ -12,7 +12,7 @@ let handleUserLogin = (email, password) => {
       if (isExit) {
         let user = await db.User.findOne({
           where: { email: email },
-          attributes: ["lastName", "firstName", "password", "roleid"],
+          attributes: ["id", "lastName", "firstName", "password", "roleid"],
           raw: true,
         });
         if (user) {
@@ -66,8 +66,22 @@ let GetAllUser = (userid) => {
       if (userid === "ALL") {
         user = await db.User.findAll({
           attributes: {
-            exclude: ["password"],
+            exclude: ["password", "image"],
           },
+          include: [
+            {
+              model: db.Allcodes,
+              as: "roleidData",
+              attributes: ["value_en", "value_vi"],
+            },
+            {
+              model: db.Allcodes,
+              as: "genderData",
+              attributes: ["value_en", "value_vi"],
+            },
+          ],
+          raw: true,
+          nest: true,
         });
         // console.log(user);
       }
@@ -75,8 +89,17 @@ let GetAllUser = (userid) => {
         user = await db.User.findOne({
           where: { id: userid },
           attributes: {
-            exclude: ["password"],
+            exclude: ["password", "image"],
           },
+          include: [
+            {
+              model: db.Allcodes,
+              as: "roleidData",
+              attributes: ["value_en", "value_vi"],
+            },
+          ],
+          raw: true,
+          nest: true,
         });
       }
       resolve(user);
