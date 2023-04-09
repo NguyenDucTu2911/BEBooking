@@ -60,6 +60,7 @@ module.exports = (sequelize, DataTypes) => {
       phonenumber: DataTypes.STRING,
       image: DataTypes.BLOB("long"),
       positoonld: DataTypes.STRING,
+      token: DataTypes.STRING,
     },
     {
       sequelize,

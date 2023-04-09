@@ -2,7 +2,8 @@ import db from "../models/index";
 import bcrypt from "bcryptjs";
 require("dotenv").config();
 import _ from "lodash";
-import { reject, resolve } from "promise";
+import emailServices from "./emailServices";
+
 const MAX_NUMBER_SCHEDULE = process.env.MAX_NUMBER_SCHEDULES;
 const salt = bcrypt.genSaltSync(10);
 
@@ -491,7 +492,7 @@ let getAllBooking = (doctorid, date) => {
           {
             model: db.User,
             as: "BookingData",
-            attributes: ["firstName"],
+            attributes: ["firstName", "email"],
           },
           {
             model: db.User,
@@ -519,6 +520,40 @@ let getAllBooking = (doctorid, date) => {
   });
 };
 
+let sendRemedy = (data) => {
+  return new Promise(async (resolve, reject) => {
+    try {
+      if (!data.email || !data.doctorId || !data.timeType || !data.patientid) {
+        resolve({
+          errCode: 1,
+          errMessage: "missing parameter",
+        });
+      } else {
+        let appoinment = await db.Booking.findOne({
+          where: {
+            doctorId: data.doctorId,
+            patientid: data.patientid,
+            timeType: data.timeType,
+            statusId: "S2",
+          },
+          raw: false,
+        });
+        if (appoinment) {
+          (appoinment.statusId = "S3"), await appoinment.save();
+        }
+        await emailServices.sendCheck(data);
+        resolve({
+          errCode: 0,
+          errMessage: "Thêm Thành công",
+        });
+      }
+    } catch (e) {
+      console.log(e);
+      reject(e);
+    }
+  });
+};
+
 module.exports = {
   getTopDocTor,
   getAllDocTor,
@@ -529,4 +564,5 @@ module.exports = {
   getExtraInfo,
   getBooking,
   getAllBooking,
+  sendRemedy,
 };

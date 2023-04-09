@@ -10,6 +10,7 @@ require("dotenv").config();
 
 let app = express();
 app.use(cookieParser());
+app.use(express.json());
 app.use(function (req, res, next) {
   res.setHeader("Access-Control-Allow-Origin", process.env.URL_FE);
 

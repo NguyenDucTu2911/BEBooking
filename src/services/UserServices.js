@@ -8,16 +8,25 @@ let handleUserLogin = (email, password) => {
   return new Promise(async (resolve, reject) => {
     try {
       let userData = {};
+
       let isExit = await checkUser(email);
       if (isExit) {
         let user = await db.User.findOne({
           where: { email: email },
-          attributes: ["id", "lastName", "firstName", "password", "roleid"],
+          attributes: [
+            "id",
+            "lastName",
+            "firstName",
+            "password",
+            "roleid",
+            "token",
+          ],
           raw: true,
         });
         if (user) {
           let check = await bcrypt.compareSync(password, user.password);
           console.log(check);
+
           if (check) {
             userData.errCode = 0;
             userData.errMessage = "Đang nhập thành công";

@@ -30,6 +30,39 @@ let sendEmail = async (datasend) => {
   });
 };
 
+let sendCheck = async (datasend) => {
+  let transporter = nodemailer.createTransport({
+    host: "smtp.gmail.com",
+    port: 465,
+    secure: true,
+    auth: {
+      user: process.env.EMAIL,
+      pass: process.env.MAIL_APP_PASSWORD,
+    },
+  });
+
+  let info = await transporter.sendMail({
+    from: '"Lịch khám 👻" <ductu7890@gmail.com>',
+    to: datasend.email,
+    subject: "Kết Qủa Đạt lịch khám bệnh",
+    html: `
+    <h3>xin chào ${datasend.name}</h3>
+    <p>Thông Tin Khám Bệnh/hóa đơn gửi trong file đính kèm</p>
+    <div>
+    Chân thành cảm ơn!!!
+    </div>
+    `,
+    attachments: [
+      {
+        filename: `remedy-${datasend.name}.png`,
+        content: datasend.image.split("base64,")[1],
+        encoding: "base64",
+      },
+    ],
+  });
+};
+
 module.exports = {
   sendEmail: sendEmail,
+  sendCheck,
 };

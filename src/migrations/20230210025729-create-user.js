@@ -42,6 +42,9 @@ module.exports = {
       image: {
         type: Sequelize.BLOB("long"),
       },
+      token: {
+        type: Sequelize.STRING,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

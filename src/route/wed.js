@@ -3,12 +3,15 @@ import HomeController from "../controllers/HomeController";
 import UserController from "../controllers/UserController";
 import DoctorController from "../controllers/DoctorController";
 import PatienlController from "../controllers/PatienlController";
+import { cookieLogin } from "../Middleware/cookieAllDocTor";
 
 let router = express.Router();
 let initWedRouter = (app) => {
   router.get("/", HomeController.getHomePage);
 
   //api loggin
+  // router.post("/api/login", cookieLogin, UserController.handleLogin);
+
   router.post("/api/login", UserController.handleLogin);
   //api crud user
   router.get("/api/User", UserController.getAllUser);
@@ -26,6 +29,7 @@ let initWedRouter = (app) => {
   router.get("/api/get-extraInfo", DoctorController.getExtraInfo);
   router.get("/api/get-Booking", DoctorController.getBooking);
   router.get("/api/get-AllBooking", DoctorController.getAllBooking);
+  router.post("/api/send-remedy", DoctorController.sendRemedy);
 
   //booking
   router.post("/api/create-book", PatienlController.createBook);

@@ -116,13 +116,28 @@ let getBooking = async (req, res) => {
 
 let getAllBooking = async (req, res) => {
   try {
-    let data = await DoctorServices.getAllBooking(req.query.doctorid,req.query.date);
-    return res.status(200).json(data)
+    let data = await DoctorServices.getAllBooking(
+      req.query.doctorid,
+      req.query.date
+    );
+    return res.status(200).json(data);
   } catch (e) {
     console.log(e);
     return res.status(200).json({
       errCode: -1,
       errMessage: "err from server",
+    });
+  }
+};
+
+let sendRemedy = async (req, res) => {
+  try {
+    let data = await DoctorServices.sendRemedy(req.body);
+    return res.status(200).json(data);
+  } catch (e) {
+    return res.status(200).json({
+      errCode: -1,
+      errMessage: "loi form server",
     });
   }
 };
@@ -137,4 +152,5 @@ module.exports = {
   getExtraInfo,
   getBooking,
   getAllBooking,
+  sendRemedy,
 };

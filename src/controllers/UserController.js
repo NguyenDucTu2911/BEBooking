@@ -1,6 +1,7 @@
 import { json } from "body-parser";
 import db from "../models/index";
-import userServices from "../services/userServices";
+import userServices from "../services/UserServices";
+import jwt from "jsonwebtoken";
 
 let handleLogin = async (req, res) => {
   let username = req.body.email;
@@ -13,7 +14,28 @@ let handleLogin = async (req, res) => {
   }
 
   let userData = await userServices.handleUserLogin(username, password);
-  console.log(userData);
+  if (!userData.user.id) {
+    return res.status(500).json({
+      errCode: 2,
+      Message: "not found id",
+    });
+  }
+  // const payload = {
+  //   id: userData.user.id,
+  // };
+  // const token = jwt.sign(payload, process.env.JWT_SECRET, {
+  //   expiresIn: "1d",
+  // });
+  // res
+  //   .cookie("access_token", token, {
+  //     httpOnly: true,
+  //   })
+  //   .status(200)
+  //   .json({
+  //     errCode: userData.errCode,
+  //     message: userData.errMessage,
+  //     user: userData.user ? userData.user : {},
+  //   });
   return res.status(200).json({
     errCode: userData.errCode,
     message: userData.errMessage,

@@ -1,13 +1,19 @@
 import jwt from "jsonwebtoken";
+import user from "../models/user";
 
-exports.cookieAllDoctor = (req, res) => {
-  const token = req.cookies.token;
-  try {
-    const allDoctor = jwt.verify(token, process.env.JWT_SECRET);
-    req.allDoctor = allDoctor;
-    next();
-  } catch (error) {
-    res.clearCookies("token");
-    return res.redirect(req.url);
+export const cookieLogin = (req, res, next) => {
+  const token = req.cookies.access_token;
+  if (!token) {
+    return res.status(401).json("no token found");
   }
+
+  jwt.verify(token, process.env.JWT_SECRET, (err, email) => {
+    if (err) {
+      return res.status(405).json("invalid token");
+    }
+    req.user = {
+      email: email,
+    };
+    next();
+  });
 };
