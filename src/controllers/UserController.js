@@ -1,6 +1,6 @@
 import { json } from "body-parser";
 import db from "../models/index";
-import userServices from "../services/userServices";
+import userServices from "../services/UserServices";
 
 let handleLogin = async (req, res) => {
   let username = req.body.email;
