@@ -14,18 +14,19 @@ let handleLogin = async (req, res) => {
   }
 
   let userData = await userServices.handleUserLogin(username, password);
-  if (!userData.user.id) {
-    return res.status(500).json({
-      errCode: 2,
-      Message: "not found id",
-    });
-  }
+  // if (!userData.user.id) {
+  //   return res.status(500).json({
+  //     errCode: 2,
+  //     Message: "not found id",
+  //   });
+  // }
   // const payload = {
   //   id: userData.user.id,
   // };
   // const token = jwt.sign(payload, process.env.JWT_SECRET, {
   //   expiresIn: "1d",
   // });
+  // console.log("token", token);
   // res
   //   .cookie("access_token", token, {
   //     httpOnly: true,

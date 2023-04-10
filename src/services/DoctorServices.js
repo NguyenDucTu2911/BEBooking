@@ -92,22 +92,35 @@ let saveInfoDoctor = (data) => {
             doctorId: data.doctorId,
           });
         } else if (data.action === "EDIT") {
-          let doctorMark = await db.markdown.findOne({
+          let doctorMark = await db.markdown.findOrCreate({
             where: {
               doctorId: data.doctorId,
             },
-            raw: false,
+            defaults: {
+              contentHTML: data.contentHTML,
+              contentMarkdown: data.contentMarkdown,
+              description: data.description,
+            },
+            raw: true,
           });
-          console.log(doctorMark);
-          if (doctorMark) {
-            console.log(data.action);
 
-            doctorMark.contentHTML = data.contentHTML;
+          ///SASDASD
+          // let doctorMark = await db.markdown.findOne({
+          //   where: {
+          //     doctorId: data.doctorId,
+          //   },
+          //   raw: false,
+          // });
+          // console.log(doctorMark);
+          // if (doctorMark) {
+          //   console.log(data.action);
 
-            doctorMark.contentMarkdown = data.contentMarkdown;
-            doctorMark.description = data.description;
-            await doctorMark.save();
-          }
+          //   doctorMark.contentHTML = data.contentHTML;
+
+          //   doctorMark.contentMarkdown = data.contentMarkdown;
+          //   doctorMark.description = data.description;
+          //   await doctorMark.save();
+          // }
         }
         // upsetDoctor-info
         let Doctor = await db.doctorInfo.findOne({

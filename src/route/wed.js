@@ -3,7 +3,7 @@ import HomeController from "../controllers/HomeController";
 import UserController from "../controllers/UserController";
 import DoctorController from "../controllers/DoctorController";
 import PatienlController from "../controllers/PatienlController";
-import { cookieLogin } from "../Middleware/cookieAllDocTor";
+import { cookieLogin, createToken } from "../Middleware/cookieAllDocTor";
 
 let router = express.Router();
 let initWedRouter = (app) => {
